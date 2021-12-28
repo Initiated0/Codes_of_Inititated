@@ -8,6 +8,75 @@ using namespace std;
 int arr[100+3];
 int prime[100];
 
+int sarr[10000+3];
+int sprime[2000];
+int ssprime[3000+10];
+
+//in segmented sieve you will be given a range and you will have to find all the primes in between that range
+void segmented_sieve(int a, int b)
+{
+    int limit = sqrt(b) + 2;
+    int idx = 1;
+    sarr[0] = sarr[1] = 1;
+
+    sprime[idx++] = 2;
+
+    for (int i = 4; i<=limit; i+= 2)
+    {
+        sarr[i] = 1;
+    }
+
+    for (int i = 3; i<= limit; i += 2)
+    {
+        if (sarr[i] != 1)
+        {
+            sprime[idx++] = i;
+
+            for (int j = i * i; j <= limit; j += i * 2)
+            {
+                sarr[j] = 1;
+            }
+
+        }
+    }
+
+
+    for (int i = 1; i < idx; i++)
+    {
+        printf("%d ", sprime[i]);
+    }
+
+    printf("\n");
+
+
+    for (int i = 1; i < idx; i++)
+    {
+        int primes = sprime[i];
+
+        for (int j = 0; j <= b-a+1; j++)
+        {
+            if ( (a + j) % primes == 0)
+            {
+                ssprime[j] = 1;
+            }
+
+        }
+    }
+
+    for (int i = 0; i<= b - a + 1; i++)
+    {
+        if (ssprime[i] != 1)
+        {
+            printf("%d ", (a+i));
+        }
+    }
+
+
+
+
+
+}
+
 int main()
 {
     int n = 100;
@@ -35,6 +104,10 @@ int main()
 
     for (int i = 1; i< primeindex; i++)
         printf("%d ", prime[i]);
+
+    printf("\n");
+
+    segmented_sieve(1, 100);
 
     return 0;
 }
