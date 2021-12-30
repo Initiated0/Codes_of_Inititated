@@ -16,6 +16,7 @@ int ssprime[3000+10];
 void segmented_sieve(int a, int b)
 {
     int limit = sqrt(b) + 2;
+    printf("Limit : %d\n", limit);
     int idx = 1;
     sarr[0] = sarr[1] = 1;
 
@@ -39,6 +40,8 @@ void segmented_sieve(int a, int b)
 
         }
     }
+
+    printf("Segmented Sieve:\n");
 
 
     for (int i = 1; i < idx; i++)
@@ -70,28 +73,30 @@ void segmented_sieve(int a, int b)
             printf("%d ", (a+i));
         }
     }
-
-
-
-
-
 }
 
 int main()
 {
-    int n = 100;
+
+    for(int i = 0; i<100; i++)
+    {
+        printf("%d ", prime[i]);
+    }
+    printf("\n");
+    int n = 200;
 
     arr[0] = arr[1] = 1;
+    prime[1] = 2;
     for(int i = 4; i<=100; i+=2) //crossing all even numbers
         arr[i] = 1;
 
-    int primeindex = 1;
-    prime[primeindex++] = 2;
+    int primeindex = 2;
+
 
     int limit = sqrt(100);
     for(int i = 3; i<n; i += 2) // looping over all odds
     {
-        if(arr[i] == 0)
+        if(arr[i] != 1)
         {
             prime[primeindex++] = i; // the prime number
 
@@ -102,12 +107,15 @@ int main()
         }
     }
 
+    printf("Normal Sieve from 1 to N:\n");
+    //prime[1] = prime[1] + 1;
+
     for (int i = 1; i< primeindex; i++)
         printf("%d ", prime[i]);
 
     printf("\n");
 
-    segmented_sieve(1, 100);
+    segmented_sieve(100, 200);
 
     return 0;
 }
