@@ -5,8 +5,8 @@
 using namespace std;
 
 //initializes the arrays as 0
-int arr[100+3];
-int prime[100];
+int arr[1000+3];
+int prime[1000];
 
 int sarr[10000+3];
 int sprime[2000];
@@ -16,7 +16,7 @@ int ssprime[3000+10];
 void segmented_sieve(int a, int b)
 {
     int limit = sqrt(b) + 2;
-    printf("Limit : %d\n", limit);
+    //printf("Limit : %d\n", limit);
     int idx = 1;
     sarr[0] = sarr[1] = 1;
 
@@ -27,7 +27,7 @@ void segmented_sieve(int a, int b)
         sarr[i] = 1;
     }
 
-    for (int i = 3; i<= limit; i += 2)
+    for (int i = 3; i <= limit; i += 2)
     {
         if (sarr[i] != 1)
         {
@@ -44,21 +44,21 @@ void segmented_sieve(int a, int b)
     printf("Segmented Sieve:\n");
 
 
-    for (int i = 1; i < idx; i++)
-    {
-        printf("%d ", sprime[i]);
-    }
+    //for (int i = 1; i < idx; i++)
+    //{
+        //printf("%d ", sprime[i]);
+    //}
 
-    printf("\n");
+    //printf("\n");
 
 
     for (int i = 1; i < idx; i++)
     {
         int primes = sprime[i];
 
-        for (int j = 0; j <= b-a+1; j++)
+        for (int j = a; j <= b-a+1; j++)
         {
-            if ( (a + j) % primes == 0)
+            if ( ((a + j) % primes == 0) && (a+j) != primes)
             {
                 ssprime[j] = 1;
             }
@@ -66,7 +66,7 @@ void segmented_sieve(int a, int b)
         }
     }
 
-    for (int i = 0; i<= b - a + 1; i++)
+    for (int i = a; i<= b - a + 1; i++)
     {
         if (ssprime[i] != 1)
         {
@@ -77,45 +77,42 @@ void segmented_sieve(int a, int b)
 
 int main()
 {
-
-    for(int i = 0; i<100; i++)
-    {
-        printf("%d ", prime[i]);
-    }
-    printf("\n");
-    int n = 200;
+    //sieve of 1 to N
+    int N = 1000;
 
     arr[0] = arr[1] = 1;
-    prime[1] = 2;
-    for(int i = 4; i<=100; i+=2) //crossing all even numbers
+
+    int idx = 1;
+    prime[idx++] = 2;
+
+    for (int i = 4; i<= N; i+=2)
+    {
         arr[i] = 1;
+    }
 
-    int primeindex = 2;
-
-
-    int limit = sqrt(100);
-    for(int i = 3; i<n; i += 2) // looping over all odds
+    for (int i = 3; i <= N; i+=2)
     {
         if(arr[i] != 1)
         {
-            prime[primeindex++] = i; // the prime number
-
-            for(int j = i * i; j < n; j += 2*i) // here is the actual trick
-            {                                   // i == 3; j starts from 9 and increments with 6 (3*2)
-                arr[j] = 1;                     // i == 5; j starts from 25 and increments with 10 (5*2)
+            prime[idx++] = i;
+            for(int j = i * i; j <= N; j+= i *2)
+            {
+                arr[j] = 1;
             }
         }
     }
+    cout<<"Normal Sieve from 1 to N"<<endl;
 
-    printf("Normal Sieve from 1 to N:\n");
-    //prime[1] = prime[1] + 1;
-
-    for (int i = 1; i< primeindex; i++)
+    for(int i = 1; i<47; i++)
+    {
         printf("%d ", prime[i]);
+    }
 
-    printf("\n");
+    cout<<endl;
 
     segmented_sieve(100, 200);
+
+
 
     return 0;
 }
