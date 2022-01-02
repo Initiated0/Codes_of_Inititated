@@ -8,71 +8,69 @@ using namespace std;
 int arr[1000+3];
 int prime[1000];
 
-int sarr[10000+3];
+int sarr[2000+3];
 int sprime[2000];
-int ssprime[3000+10];
+int ssprime[2000+3];
 
 //in segmented sieve you will be given a range and you will have to find all the primes in between that range
 void segmented_sieve(int a, int b)
 {
-    int limit = sqrt(b) + 2;
-    //printf("Limit : %d\n", limit);
-    int idx = 1;
+    // range is from a to b
+    // what i have to do
+    // use sieve until b^(1/2)
+    // get the primes
+    // then use those primes to cross out numbers between the range
+    // collect the remainders
+    int limit = sqrt(b);
     sarr[0] = sarr[1] = 1;
 
+    int idx = 1;
     sprime[idx++] = 2;
 
-    for (int i = 4; i<=limit; i+= 2)
+    for (int i = 4; i<= limit; i+=2)
     {
         sarr[i] = 1;
     }
 
-    for (int i = 3; i <= limit; i += 2)
+    for (int i = 3; i <= limit; i+=2)
     {
-        if (sarr[i] != 1)
+        if(sarr[i] != 1)
         {
             sprime[idx++] = i;
-
-            for (int j = i * i; j <= limit; j += i * 2)
+            for(int j = i * i; j <= limit; j+= i *2)
             {
                 sarr[j] = 1;
             }
-
         }
     }
 
-    printf("Segmented Sieve:\n");
-
-
-    //for (int i = 1; i < idx; i++)
-    //{
-        //printf("%d ", sprime[i]);
-    //}
-
-    //printf("\n");
-
-
-    for (int i = 1; i < idx; i++)
+    printf("Segemented Sieve:\n");
+    int idx2 = 0;
+    for (int j = a; j <= b; j++)
     {
-        int primes = sprime[i];
-
-        for (int j = a; j <= b-a+1; j++)
+        int flag = 1;
+        for (int i = 1; i<idx; i++)
         {
-            if ( ((a + j) % primes == 0) && (a+j) != primes)
+            if(j % sprime[i] == 0 && j != sprime[i])
             {
-                ssprime[j] = 1;
+                flag = 0;
             }
-
         }
-    }
-
-    for (int i = a; i<= b - a + 1; i++)
-    {
-        if (ssprime[i] != 1)
+        if(flag != 0)
         {
-            printf("%d ", (a+i));
+            ssprime[idx2++] = j;
         }
     }
+
+    for(int i = 0; i<idx2; i++)
+    {
+        printf("%d ", ssprime[i]);
+    }
+
+    printf("\n");
+
+
+
 }
 
 int main()
