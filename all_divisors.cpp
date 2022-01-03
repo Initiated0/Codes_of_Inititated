@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
 
+//list of all divisors of N
+//number of divisors (NOD) and sum of divisors(SOD)
+
 using namespace std;
 
 int main()
@@ -22,12 +25,14 @@ int main()
 
     for (int i = 1; i<= n; i++)
     {
+        int sum = 0;
         printf("%d :-", i);
         for (int j = 0; j< divisors[i].size(); j++)
         {
             printf("%d ", divisors[i][j]);
+            sum += divisors[i][j];
         }
-        printf("::::: %d\n", divisors[i].size());
+        printf("::::: NOD: %d  SOD: %d\n", divisors[i].size(), sum);
 
     }
 
