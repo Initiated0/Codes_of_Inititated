@@ -3,7 +3,7 @@
 using namespace std;
 
 
-    // if you take the log of factorial of the number you will get a good approximation
+    // if you take the log (Base 10) of factorial of the number you will get a good approximation
     // floor the result and add 1
 
 double digitsinfactorial(int num)
